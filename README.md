@@ -1,39 +1,85 @@
-# Rubocop::Dry::Import
+# RuboCop Dry Import
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rubocop/dry/import`. To experiment with that code, run `bin/console` for an interactive prompt.
+A custom [RuboCop](https://github.com/rubocop/rubocop) extension that detects **unused `Import` dependencies** in classes using [dry-rb’s dependency injection](https://dry-rb.org/gems/dry-auto_inject/).
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
-
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-```
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'rubocop-dry-import', require: false
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+Add the extension to your `.rubocop.yml`:
+
+```yaml
+require:
+  - rubocop-dry-import
+
+Dry/UnusedImport:
+  Enabled: true
+  ImportName: 'Import' # Optional, defaults to "Import"
+```
+
+Run RuboCop as usual:
+
+```bash
+bundle exec rubocop
+```
+
+## Example
+
+```ruby
+class FooService
+  include Import['service_a', 'service_b']
+
+  def call
+    service_b.call
+  end
+end
+```
+
+**Offense:**
+```
+Include Import['service_a', 'service_b']
+               ^^^^^^^^^^^ Imported dependency `service_a` is not used in the class.
+```
+
+**Autocorrect:** Not available (yet).
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Clone and setup:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+git clone https://github.com/seriousdev-gh/rubocop-dry-import
+cd rubocop-dry-import
+bundle install
+```
+
+Run tests:
+
+```bash
+bundle exec rspec
+```
+
+Run RuboCop locally:
+
+```bash
+bundle exec rubocop --require rubocop-dry-import path/to/file.rb
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop-dry-import.
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/new-cop`).
+3. Commit your changes (`git commit -am 'Add new cop'`).
+4. Push to the branch (`git push origin feature/new-cop`).
+5. Open a Pull Request.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT License](LICENSE).
+
