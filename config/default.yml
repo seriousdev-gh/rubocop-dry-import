@@ -1,0 +1,3 @@
+Dry/UnusedImport:
+  Enabled: true
+  InjectorName: 'Import'
