@@ -5,7 +5,8 @@ AllCops:
   SuggestExtensions: false
   NewCops: enable
   Exclude:
-    - example/*
+    - example/**/*
+    - vendor/**/*
 
 Style/Documentation:
   Enabled: false
