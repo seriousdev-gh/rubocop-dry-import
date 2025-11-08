@@ -16,7 +16,7 @@ Add the extension to your `.rubocop.yml`:
 
 ```yaml
 require:
-  - rubocop-dry-import
+  - rubocop_dry_import
 
 Dry/UnusedImport:
   Enabled: true

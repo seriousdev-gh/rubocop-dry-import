@@ -5,7 +5,6 @@ class FooService
                      'service_b',
                      foo: 'bar',
                      baz: 'asd']
-  include Foo[]
 
   def call
     service_b.call

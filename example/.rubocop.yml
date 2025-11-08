@@ -1,5 +1,5 @@
 require:
-  - ../lib/rubocop/cop/dry/unused_import.rb
+  - rubocop_dry_import
 
 AllCops:
   TargetRubyVersion: 3.2
